@@ -7,7 +7,6 @@ import {
   getUserApi
 } from '../utils/burger-api';
 import { TUser } from '@utils-types';
-import { useSelector } from '../services/store';
 
 interface UserState {
   isAuthChecked: boolean;

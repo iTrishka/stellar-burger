@@ -22,7 +22,7 @@ import {
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
-import { useDispatch, useSelector } from '../../services/store';
+import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
 
 const App = () => {
@@ -39,8 +39,6 @@ const App = () => {
   const onClose = () => {
     navigate(-1);
   };
-
-  console.log('location', location, backgroundLocation);
 
   return (
     <div className={styles.app}>
@@ -108,7 +106,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='1' onClose={onClose}>
+              <Modal title='Детали заказа' onClose={onClose}>
                 <OrderInfo />
               </Modal>
             }
