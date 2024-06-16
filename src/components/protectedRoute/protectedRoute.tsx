@@ -12,8 +12,6 @@ type ProtectedRouteProps = {
 
 export const ProtectedRoute = (props: ProtectedRouteProps) => {
   const { user, isAuthChecked } = useSelector((state) => state.user);
-  console.log('isAuthChecked', isAuthChecked);
-  console.log('onlyUnAuth', props.onlyUnAuth);
 
   const dispatch = useDispatch();
 
@@ -23,22 +21,18 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
 
   if (!isAuthChecked) {
     // пока идёт чекаут пользователя, показываем прелоадер
-    console.log('Preloader');
     return <Preloader />;
   }
 
   if (!props.onlyUnAuth && user && !user.email) {
     // если пользователь на странице авторизации и данных в хранилище нет, то делаем редирект
-    console.log(11);
     return <Navigate replace to='/login' />;
   }
 
   if (props.onlyUnAuth && user && user.email) {
     // если пользователь на странице авторизации и данные есть в хранилище
-    console.log(22);
     return <Navigate replace to='/profile' />;
   }
 
-  console.log('return children');
   return props.children;
 };

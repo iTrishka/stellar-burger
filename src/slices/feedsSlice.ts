@@ -42,7 +42,6 @@ const feedsSlice = createSlice({
         (state.isLoading = false), (state.error = action.error.message || null);
       })
       .addCase(fetchFeeds.fulfilled, (state, action) => {
-        console.log();
         state.isLoading = false;
         state.feeds = action.payload;
       });

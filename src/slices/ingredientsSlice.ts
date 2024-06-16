@@ -25,28 +25,19 @@ const ingredientsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectIngredients: (sliceState) => {
-      console.log();
-      return sliceState.ingredients;
-    },
-    selectIsLoading: (sliceState) => {
-      console.log();
-      return sliceState.isLoading;
-    }
+    selectIngredients: (sliceState) => sliceState.ingredients,
+    selectIsLoading: (sliceState) => sliceState.isLoading
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
-        console.log();
         state.isLoading = true;
         state.error = null;
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
-        console.log();
         (state.isLoading = false), (state.error = action.error.message || null);
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
-        console.log();
         state.isLoading = false;
         state.ingredients = action.payload;
       });

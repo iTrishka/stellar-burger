@@ -21,8 +21,6 @@ export const Feed: FC = () => {
     dispatch(fetchFeeds());
   };
 
-  console.log('Feed', orders);
-
   if (!orders.length) {
     return <Preloader />;
   } else {

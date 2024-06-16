@@ -22,7 +22,7 @@ import {
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
 
 const App = () => {
