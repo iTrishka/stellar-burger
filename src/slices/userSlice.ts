@@ -26,8 +26,8 @@ const initialState: UserState = {
   isAuthChecked: false,
   isAuthenticated: false,
   user: {
-    email: '',
-    name: ''
+    email: 'snowflak@yandex.ru',
+    name: 'ЛисКраш23'
   },
   isLoading: false,
   error: null

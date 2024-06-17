@@ -22,11 +22,15 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
     const ingredientsInfo = order.ingredients.reduce(
       (acc: TIngredient[], item: string) => {
         const ingredient = ingredients.find((ing) => ing._id === item);
+        if (ingredient && ingredient.type === 'bun')
+          return [...acc, ingredient, ingredient];
         if (ingredient) return [...acc, ingredient];
         return acc;
       },
       []
     );
+
+    console.log('ingredientsInfo', ingredientsInfo);
 
     const total = ingredientsInfo.reduce((acc, item) => acc + item.price, 0);
 
