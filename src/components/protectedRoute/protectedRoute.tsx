@@ -28,12 +28,12 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
 
   if (!isAuthenticated && !props.onlyUnAuth && user && !user.email) {
     // если пользователь на защищенной сранице и данных в хранилище нет, то делаем редирект
-    return <Navigate replace to='/login' />;
+    return <Navigate replace to='/login' state={{ from: location }} />;
   }
 
   if (isAuthChecked && props.onlyUnAuth && user && user.email) {
     // если пользователь на странице авторизации и данные есть в хранилище
-    const from = location.state?.from || { pathname: '/' };
+    const from = location.state?.from || { pathname: '/profile' };
     return <Navigate replace to={from} />;
   }
 

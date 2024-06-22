@@ -35,6 +35,7 @@ const feedsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchFeeds.pending, (state) => {
+        state.feeds.orders = [];
         state.isLoading = true;
         state.error = null;
       })
