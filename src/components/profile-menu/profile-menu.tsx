@@ -5,7 +5,7 @@ import { ProfileMenuUI } from '@ui';
 import { useDispatch } from '../../services/store';
 import { useSelector } from '../../services/store';
 
-import { logoutUser } from '../../slices/userSlice';
+import { logoutUser } from '../../services/userSlice';
 import { getUserApi } from '@api';
 
 export const ProfileMenu: FC = () => {

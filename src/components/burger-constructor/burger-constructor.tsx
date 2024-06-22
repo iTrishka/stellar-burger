@@ -2,8 +2,8 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI, Preloader } from '@ui';
 import { useSelector, useDispatch } from '../../services/store';
-import { sendOrder, orderSlice } from '../../slices/orderSlicer';
-import { checkUserAuth } from '../../slices/userSlice';
+import { sendOrder, orderSlice } from '../../services/orderSlicer';
+import { checkUserAuth } from '../../services/userSlice';
 import { useNavigate } from 'react-router-dom';
 
 export const BurgerConstructor: FC = () => {

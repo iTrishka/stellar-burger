@@ -3,10 +3,10 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
-import { getOrderByNumber } from '../../slices/orderSlicer';
+import { getOrderByNumber } from '../../services/orderSlicer';
 
 import { useSelector, useDispatch } from '../../services/store';
-import { getUser } from '../../slices/userSlice';
+import { getUser } from '../../services/userSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */

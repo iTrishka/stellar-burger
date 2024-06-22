@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useDispatch } from '../../services/store';
 import { TModalProps } from './type';
 import { ModalUI } from '@ui';
-import { orderSlice } from '../../slices/orderSlicer';
+import { orderSlice } from '../../services/orderSlicer';
 
 const modalRoot = document.getElementById('modals');
 

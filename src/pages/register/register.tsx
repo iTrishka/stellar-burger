@@ -4,7 +4,7 @@ import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { useSelector } from '../../services/store';
 
-import { registerUser } from '../../slices/userSlice';
+import { registerUser } from '../../services/userSlice';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');

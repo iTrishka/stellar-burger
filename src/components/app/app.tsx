@@ -19,13 +19,13 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom';
-import { orderSlice } from '../../slices/orderSlicer';
+import { orderSlice } from '../../services/orderSlicer';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 import { useDispatch } from '../../services/store';
-import { fetchIngredients } from '../../slices/ingredientsSlice';
-import { getUser } from '../../slices/userSlice';
+import { fetchIngredients } from '../../services/ingredientsSlice';
+import { getUser } from '../../services/userSlice';
 
 const App = () => {
   const location = useLocation();

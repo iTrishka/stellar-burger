@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react';
 
 import { useSelector } from '../../services/store';
 import { useDispatch } from '../../services/store';
-import { fetchFeeds } from '../../slices/feedsSlice';
+import { fetchFeeds } from '../../services/feedsSlice';
 
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
