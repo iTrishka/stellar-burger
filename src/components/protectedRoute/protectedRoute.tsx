@@ -23,7 +23,6 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
   }, [dispatch]);
 
   if (!isAuthChecked) {
-    console.log('PROTECT1');
     return <Preloader />;
   }
 
