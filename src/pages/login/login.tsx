@@ -1,10 +1,7 @@
-import { useEffect } from 'react';
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { Navigate } from 'react-router-dom';
 
 import { useDispatch } from '../../services/store';
-import { useSelector } from '../../services/store';
 
 import { loginUser } from '../../slices/userSlice';
 

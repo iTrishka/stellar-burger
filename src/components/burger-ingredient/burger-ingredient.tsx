@@ -12,7 +12,6 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
     const dispatch = useDispatch();
 
     const handleAdd = () => {
-      console.log('handleAdd', ingredient);
       ingredient.type === 'bun'
         ? dispatch(orderSlice.actions.addBun(ingredient))
         : dispatch(orderSlice.actions.addIngredient(ingredient));

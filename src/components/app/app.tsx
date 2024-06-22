@@ -19,11 +19,13 @@ import {
   useLocation,
   useNavigate
 } from 'react-router-dom';
+import { orderSlice } from '../../slices/orderSlicer';
 
 import { AppHeader, IngredientDetails, Modal, OrderInfo } from '@components';
 import { ProtectedRoute } from '../protectedRoute/protectedRoute';
 import { useDispatch } from '../../services/store';
 import { fetchIngredients } from '../../slices/ingredientsSlice';
+import { getUser } from '../../slices/userSlice';
 
 const App = () => {
   const location = useLocation();
@@ -34,10 +36,12 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(getUser());
   }, [dispatch]);
 
   const onClose = () => {
     navigate(-1);
+    dispatch(orderSlice.actions.closeModal());
   };
 
   return (
@@ -47,7 +51,10 @@ const App = () => {
       <Routes location={backgroundLocation || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/ingredients/:id' element={<IngredientDetails />} />
-        <Route path='/feed' element={<Feed />} />
+        <Route path='/feed'>
+          <Route index element={<Feed />} />
+          <Route path=':number' element={<OrderInfo />} />
+        </Route>
         <Route
           path='/login'
           element={
@@ -89,15 +96,26 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path='orders'
-            element={
-              <ProtectedRoute>
-                <ProfileOrders />
-              </ProtectedRoute>
-            }
-          />
+          <Route path='orders'>
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ProfileOrders />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=':number'
+              element={
+                <ProtectedRoute>
+                  <OrderInfo />
+                </ProtectedRoute>
+              }
+            />
+          </Route>
         </Route>
+
         <Route path='*' element={<NotFound404 />} />
       </Routes>
 

@@ -14,7 +14,7 @@ export const BurgerConstructor: FC = () => {
 
   const orderModalData = useSelector((state) => state.order.orderModalData);
 
-  const { user, isAuthChecked } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   let navigate = useNavigate();
@@ -24,7 +24,6 @@ export const BurgerConstructor: FC = () => {
     dispatch(checkUserAuth);
 
     if (user && !user.email) {
-      console.log('Navigate');
       navigate('/login');
     }
 
@@ -32,7 +31,13 @@ export const BurgerConstructor: FC = () => {
       const idIngredients = constructorItems.ingredients.map(
         (item) => item._id
       );
-      dispatch(sendOrder([constructorItems.bun._id, ...idIngredients]));
+      dispatch(
+        sendOrder([
+          constructorItems.bun._id,
+          ...idIngredients,
+          constructorItems.bun._id
+        ])
+      );
     }
   };
   const closeOrderModal = () => {

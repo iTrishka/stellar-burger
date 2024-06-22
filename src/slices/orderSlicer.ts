@@ -93,52 +93,43 @@ export const orderSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(sendOrder.pending, (state, action) => {
-        console.log('sendOrder1');
         state.isLoading = true;
         state.orderRequest = true;
         state.error = null;
       })
       .addCase(sendOrder.rejected, (state, action) => {
-        console.log('sendOrder2');
         state.isLoading = false;
         state.error = action.error.message || null;
         state.orderRequest = false;
       })
       .addCase(sendOrder.fulfilled, (state, action) => {
-        console.log('sendOrder3');
         state.isLoading = false;
         state.error = null;
         state.orderModalData = action.payload.order;
         state.orderRequest = false;
       })
       .addCase(getUserOrders.pending, (state, action) => {
-        console.log('getUserOrders1');
         state.isLoading = true;
         state.error = null;
       })
       .addCase(getUserOrders.rejected, (state, action) => {
-        console.log('getUserOrders2');
         state.isLoading = false;
         state.error = action.error.message || null;
       })
       .addCase(getUserOrders.fulfilled, (state, action) => {
-        console.log('getUserOrders3');
         state.isLoading = false;
         state.error = null;
         state.orders = action.payload;
       })
       .addCase(getOrderByNumber.pending, (state, action) => {
-        console.log('getOrderByNumber1');
         state.isLoading = true;
         state.error = null;
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
-        console.log('getOrderByNumber2');
         state.isLoading = false;
         state.error = action.error.message || null;
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
-        console.log('getOrderByNumber3');
         state.isLoading = false;
         state.error = null;
         state.orderModalData = action.payload.orders[0];

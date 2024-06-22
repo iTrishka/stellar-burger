@@ -6,12 +6,12 @@ import { TIngredient } from '@utils-types';
 import { getOrderByNumber } from '../../slices/orderSlicer';
 
 import { useSelector, useDispatch } from '../../services/store';
+import { getUser } from '../../slices/userSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = useSelector((state) => state.order.orderModalData);
   let { number } = useParams();
-  console.log(number, 'number');
 
   const ingredients: TIngredient[] = useSelector(
     (state) => state.ingredients.ingredients
@@ -21,6 +21,7 @@ export const OrderInfo: FC = () => {
 
   useEffect(() => {
     dispatch(getOrderByNumber(Number(number)));
+    dispatch(getUser());
   }, [dispatch]);
 
   /* Готовим данные для отображения */
@@ -37,7 +38,13 @@ export const OrderInfo: FC = () => {
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
           const ingredient = ingredients.find((ing) => ing._id === item);
-          if (ingredient) {
+          if (ingredient && ingredient.type === 'bun') {
+            acc[item] = {
+              ...ingredient,
+              count: 1
+            };
+          }
+          if (ingredient && ingredient.type !== 'bun') {
             acc[item] = {
               ...ingredient,
               count: 1

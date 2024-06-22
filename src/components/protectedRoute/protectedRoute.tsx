@@ -11,7 +11,9 @@ type ProtectedRouteProps = {
 };
 
 export const ProtectedRoute = (props: ProtectedRouteProps) => {
-  const { user, isAuthChecked } = useSelector((state) => state.user);
+  const { user, isAuthChecked, isAuthenticated } = useSelector(
+    (state) => state.user
+  );
 
   const dispatch = useDispatch();
   const location = useLocation();
@@ -21,16 +23,16 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
   }, [dispatch]);
 
   if (!isAuthChecked) {
-    // пока идёт чекаут пользователя, показываем прелоадер
+    console.log('PROTECT1');
     return <Preloader />;
   }
 
-  if (!props.onlyUnAuth && user && !user.email) {
-    // если пользователь на странице авторизации и данных в хранилище нет, то делаем редирект
+  if (!isAuthenticated && !props.onlyUnAuth && user && !user.email) {
+    // если пользователь на защищенной сранице и данных в хранилище нет, то делаем редирект
     return <Navigate replace to='/login' />;
   }
 
-  if (props.onlyUnAuth && user && user.email) {
+  if (isAuthChecked && props.onlyUnAuth && user && user.email) {
     // если пользователь на странице авторизации и данные есть в хранилище
     const from = location.state?.from || { pathname: '/' };
     return <Navigate replace to={from} />;

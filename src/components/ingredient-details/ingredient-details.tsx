@@ -6,7 +6,6 @@ import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 
 export const IngredientDetails: FC = () => {
-  const location = useLocation();
   /** (DONE) TODO: взять переменную из стора */
   let { id } = useParams();
 
