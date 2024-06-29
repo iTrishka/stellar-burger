@@ -41,7 +41,11 @@ const App = () => {
 
   const onClose = () => {
     navigate(-1);
-    dispatch(orderSlice.actions.closeModal());
+  };
+
+  const onCloseOrderModal = () => {
+    navigate(-1);
+    dispatch(orderSlice.actions.clearModalData());
   };
 
   return (
@@ -124,7 +128,7 @@ const App = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='Детали заказа' onClose={onClose}>
+              <Modal title='Детали заказа' onClose={onCloseOrderModal}>
                 <OrderInfo />
               </Modal>
             }
@@ -141,7 +145,7 @@ const App = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='Детали заказа' onClose={onClose}>
+                <Modal title='Детали заказа' onClose={onCloseOrderModal}>
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

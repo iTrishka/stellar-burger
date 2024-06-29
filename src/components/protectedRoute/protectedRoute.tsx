@@ -33,7 +33,7 @@ export const ProtectedRoute = (props: ProtectedRouteProps) => {
 
   if (isAuthChecked && props.onlyUnAuth && user && user.email) {
     // если пользователь на странице авторизации и данные есть в хранилище
-    const from = location.state?.from || { pathname: '/profile' };
+    const from = location.state?.from || { pathname: '/' };
     return <Navigate replace to={from} />;
   }
 

@@ -35,35 +35,21 @@ const initialState: UserState = {
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
-  async ({ name, email, password }: TRegisterData) =>
-    await registerUserApi({ name, email, password })
+  registerUserApi
 );
 
-export const loginUser = createAsyncThunk(
-  'user/loginUser',
-  async ({ email, password }: Omit<TRegisterData, 'name'>) =>
-    await loginUserApi({ email, password })
-);
+export const loginUser = createAsyncThunk('user/loginUser', loginUserApi);
 
-export const logoutUser = createAsyncThunk(
-  'user/logoutUser',
-  async () => await logoutApi()
-);
+export const logoutUser = createAsyncThunk('user/logoutUser', logoutApi);
 
-export const checkUserAuth = createAsyncThunk(
-  'user/checkUserAuth',
-  async () => await getUserApi()
-);
+export const checkUserAuth = createAsyncThunk('user/checkUserAuth', getUserApi);
 
 export const updateUserInfo = createAsyncThunk(
   'user/updateUserInfo',
-  async (data: TRegisterData) => await updateUserApi(data)
+  updateUserApi
 );
 
-export const getUser = createAsyncThunk(
-  'user/getUser',
-  async () => await getUserApi()
-);
+export const getUser = createAsyncThunk('user/getUser', getUserApi);
 
 const userSlice = createSlice({
   name: 'user',
@@ -103,7 +89,7 @@ const userSlice = createSlice({
         state.user = action.payload.user;
         state.error = null;
       })
-      .addCase(logoutUser.pending, (state, action) => {
+      .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
@@ -111,7 +97,7 @@ const userSlice = createSlice({
         state.isLoading = false;
         state.error = action.error.message || null;
       })
-      .addCase(logoutUser.fulfilled, (state, action) => {
+      .addCase(logoutUser.fulfilled, (state) => {
         state.isLoading = false;
         state.user = {
           email: '',
@@ -120,7 +106,7 @@ const userSlice = createSlice({
         state.error = null;
         state.isAuthenticated = false;
       })
-      .addCase(checkUserAuth.pending, (state, action) => {
+      .addCase(checkUserAuth.pending, (state) => {
         state.isLoading = true;
         state.isAuthChecked = false;
         state.error = null;
@@ -131,13 +117,13 @@ const userSlice = createSlice({
         state.isAuthChecked = true;
         state.isAuthenticated = false;
       })
-      .addCase(checkUserAuth.fulfilled, (state, action) => {
+      .addCase(checkUserAuth.fulfilled, (state) => {
         state.isLoading = false;
         state.error = null;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
       })
-      .addCase(updateUserInfo.pending, (state, action) => {
+      .addCase(updateUserInfo.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })
@@ -150,7 +136,7 @@ const userSlice = createSlice({
         state.error = null;
         state.user = action.payload.user;
       })
-      .addCase(getUser.pending, (state, action) => {
+      .addCase(getUser.pending, (state) => {
         state.isLoading = true;
         state.error = null;
       })

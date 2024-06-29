@@ -1,11 +1,17 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  PayloadAction,
+  PrepareAction
+} from '@reduxjs/toolkit';
 import {
   orderBurgerApi,
   getOrdersApi,
   getOrderByNumberApi
 } from '../utils/burger-api';
-import { TConstructorIngredient } from '@utils-types';
+import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { TOrder } from '@utils-types';
+import { v4 as uuidv4 } from 'uuid';
 
 interface OrderState {
   constructorItems: {
@@ -15,7 +21,7 @@ interface OrderState {
           _id: string;
           price: number;
         };
-    ingredients: TConstructorIngredient[] | [];
+    ingredients: TConstructorIngredient[];
   };
   orderRequest: boolean;
   orderModalData: TOrder | null;
@@ -39,24 +45,18 @@ const initialState: OrderState = {
   orders: []
 };
 
-export const sendOrder = createAsyncThunk(
-  'order/sendOrder',
-  async (data: string[]) => await orderBurgerApi(data)
-);
+export const sendOrder = createAsyncThunk('order/sendOrder', orderBurgerApi);
 
 export const getUserOrders = createAsyncThunk(
   'order/getUserOrders',
-  async () => await getOrdersApi()
+  getOrdersApi
 );
 
-export const getOrders = createAsyncThunk(
-  'order/getUserOrders',
-  async () => await getOrdersApi()
-);
+export const getOrders = createAsyncThunk('order/getUserOrders', getOrdersApi);
 
 export const getOrderByNumber = createAsyncThunk(
   'order/getOrderByNumber',
-  async (arg: number) => await getOrderByNumberApi(arg)
+  getOrderByNumberApi
 );
 
 export const orderSlice = createSlice({
@@ -66,11 +66,14 @@ export const orderSlice = createSlice({
     addBun(state, action) {
       state.constructorItems.bun = action.payload;
     },
-    addIngredient(state, action) {
-      state.constructorItems.ingredients = [
-        action.payload,
-        ...state.constructorItems.ingredients
-      ];
+    addIngredient: {
+      reducer: (state, action: PayloadAction<TConstructorIngredient>) => {
+        state.constructorItems.ingredients.push(action.payload);
+      },
+      prepare: (item: TIngredient) => {
+        const id = uuidv4();
+        return { payload: { id, ...item } };
+      }
     },
     deleteIngredient(state, action) {
       state.constructorItems.ingredients =
@@ -78,15 +81,8 @@ export const orderSlice = createSlice({
           (item, index) => index !== action.payload.index
         );
     },
-    closeModal(state) {
+    clearModalData(state) {
       state.orderModalData = null;
-      state.constructorItems = {
-        bun: {
-          _id: 'dwedw',
-          price: 0
-        },
-        ingredients: []
-      };
     }
   },
   selectors: {},
@@ -107,6 +103,7 @@ export const orderSlice = createSlice({
         state.error = null;
         state.orderModalData = action.payload.order;
         state.orderRequest = false;
+        state.constructorItems = initialState.constructorItems;
       })
       .addCase(getUserOrders.pending, (state, action) => {
         state.isLoading = true;
