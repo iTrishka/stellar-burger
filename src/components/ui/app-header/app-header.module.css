@@ -4,6 +4,7 @@
 .menu {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   max-width: 1240px;
   height: 56px;
   margin: 0 auto;
@@ -11,7 +12,12 @@
 
 .menu_part_left {
   display: flex;
-  flex-basis: 35%;
+}
+
+.menu_part_left a {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
 }
 
 .link {
@@ -24,14 +30,15 @@
   color: var(--text-primary-color);
 }
 
-.link_position_last {
+.link_position_last a {
   display: flex;
   justify-content: flex-end;
-  flex-basis: 35%;
+  color: inherit;
+  text-decoration: none;
 }
 
 .logo {
   display: flex;
   align-items: center;
-  margin: 0 auto;
+  margin: 0 14% 0 5%;
 }
