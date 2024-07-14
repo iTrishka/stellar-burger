@@ -1,21 +1,28 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
+import { getOrderByNumber } from '../../services/orderSlicer';
+
+import { useSelector, useDispatch } from '../../services/store';
+import { getUser } from '../../services/userSlice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  };
+  const orderData = useSelector((state) => state.order.orderModalData);
+  let { number } = useParams();
 
-  const ingredients: TIngredient[] = [];
+  const ingredients: TIngredient[] = useSelector(
+    (state) => state.ingredients.ingredients
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getOrderByNumber(Number(number)));
+    dispatch(getUser());
+  }, [dispatch]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {
@@ -31,7 +38,13 @@ export const OrderInfo: FC = () => {
       (acc: TIngredientsWithCount, item) => {
         if (!acc[item]) {
           const ingredient = ingredients.find((ing) => ing._id === item);
-          if (ingredient) {
+          if (ingredient && ingredient.type === 'bun') {
+            acc[item] = {
+              ...ingredient,
+              count: 1
+            };
+          }
+          if (ingredient && ingredient.type !== 'bun') {
             acc[item] = {
               ...ingredient,
               count: 1
