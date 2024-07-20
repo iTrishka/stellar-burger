@@ -1,9 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  PayloadAction,
-  PrepareAction
-} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import {
   orderBurgerApi,
   getOrdersApi,
@@ -12,6 +7,7 @@ import {
 import { TConstructorIngredient, TIngredient } from '@utils-types';
 import { TOrder } from '@utils-types';
 import { v4 as uuidv4 } from 'uuid';
+import { handlePending, handleRejected, handleFulfilled } from './commonSlice';
 
 interface OrderState {
   constructorItems: {
@@ -25,8 +21,6 @@ interface OrderState {
   };
   orderRequest: boolean;
   orderModalData: TOrder | null;
-  isLoading: boolean;
-  error: string | null;
   orders: TOrder[] | [];
 }
 
@@ -40,8 +34,6 @@ const initialState: OrderState = {
   },
   orderRequest: false,
   orderModalData: null,
-  isLoading: false,
-  error: null,
   orders: []
 };
 
@@ -78,7 +70,7 @@ export const orderSlice = createSlice({
     deleteIngredient(state, action) {
       state.constructorItems.ingredients =
         state.constructorItems.ingredients.filter(
-          (item, index) => index !== action.payload.index
+          (item) => item.id !== action.payload.id
         );
     },
     clearModalData(state) {
@@ -88,52 +80,46 @@ export const orderSlice = createSlice({
   selectors: {},
   extraReducers: (builder) => {
     builder
-      .addCase(sendOrder.pending, (state, action) => {
-        state.isLoading = true;
+      .addCase(sendOrder.pending, (state) => {
         state.orderRequest = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(sendOrder.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
         state.orderRequest = false;
       })
       .addCase(sendOrder.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.orderModalData = action.payload.order;
         state.orderRequest = false;
         state.constructorItems = initialState.constructorItems;
       })
       .addCase(getUserOrders.pending, (state, action) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(getUserOrders.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(getUserOrders.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.orders = action.payload;
       })
       .addCase(getOrderByNumber.pending, (state, action) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(getOrderByNumber.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(getOrderByNumber.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.orderModalData = action.payload.orders[0];
       });
   }
 });
 
 export const state = orderSlice.selectors;
+
+export const { addBun, addIngredient, deleteIngredient, clearModalData } =
+  orderSlice.actions;
 
 export default orderSlice.reducer;

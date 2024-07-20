@@ -7,13 +7,12 @@ import {
   getUserApi
 } from '../utils/burger-api';
 import { TUser } from '@utils-types';
+import { handlePending, handleRejected, handleFulfilled } from './commonSlice';
 
 interface UserState {
   isAuthChecked: boolean;
   isAuthenticated: boolean;
   user: TUser;
-  isLoading: boolean;
-  error: string | null;
 }
 
 interface TRegisterData {
@@ -28,9 +27,7 @@ const initialState: UserState = {
   user: {
     email: '',
     name: ' '
-  },
-  isLoading: false,
-  error: null
+  }
 };
 
 export const registerUser = createAsyncThunk(
@@ -62,91 +59,73 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.isLoading = false;
+        handleFulfilled();
         state.user = action.payload.user;
-        state.error = null;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
       })
       .addCase(registerUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(registerUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.isLoading = false;
+        handleFulfilled();
         state.user = action.payload.user;
-        state.error = null;
       })
       .addCase(logoutUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(logoutUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(logoutUser.fulfilled, (state) => {
-        state.isLoading = false;
+        handleFulfilled();
         state.user = {
           email: '',
           name: ''
         };
-        state.error = null;
         state.isAuthenticated = false;
       })
       .addCase(checkUserAuth.pending, (state) => {
-        state.isLoading = true;
         state.isAuthChecked = false;
-        state.error = null;
+        handlePending();
       })
       .addCase(checkUserAuth.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
         state.isAuthChecked = true;
         state.isAuthenticated = false;
       })
       .addCase(checkUserAuth.fulfilled, (state) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.isAuthenticated = true;
         state.isAuthChecked = true;
       })
       .addCase(updateUserInfo.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(updateUserInfo.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(updateUserInfo.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.user = action.payload.user;
       })
       .addCase(getUser.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
+        handlePending();
       })
       .addCase(getUser.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.error.message || null;
+        handleRejected(action);
       })
       .addCase(getUser.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
+        handleFulfilled();
         state.user = action.payload.user;
       });
   }

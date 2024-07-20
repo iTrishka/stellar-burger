@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getFeedsApi } from '../utils/burger-api';
 import { TOrdersData } from '@utils-types';
+import { handlePending, handleRejected, handleFulfilled } from './commonSlice';
 
-interface FeedsState {
+export interface FeedsState {
   feeds: TOrdersData;
-  isLoading: boolean;
-  error: string | null;
 }
 
 const initialState: FeedsState = {
@@ -13,9 +12,7 @@ const initialState: FeedsState = {
     orders: [],
     total: 0,
     totalToday: 0
-  },
-  isLoading: true,
-  error: null
+  }
 };
 
 export const fetchFeeds = createAsyncThunk('feeds/get', getFeedsApi);
@@ -25,26 +22,24 @@ const feedsSlice = createSlice({
   initialState,
   reducers: {},
   selectors: {
-    selectFeeds: (sliceState) => sliceState.feeds.orders,
-    selectIsLoading: (sliceState) => sliceState.isLoading
+    selectFeeds: (sliceState) => sliceState.feeds.orders
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchFeeds.pending, (state) => {
+        handlePending();
         state.feeds.orders = [];
-        state.isLoading = true;
-        state.error = null;
       })
       .addCase(fetchFeeds.rejected, (state, action) => {
-        (state.isLoading = false), (state.error = action.error.message || null);
+        handleRejected(action);
       })
       .addCase(fetchFeeds.fulfilled, (state, action) => {
-        state.isLoading = false;
+        handleFulfilled();
         state.feeds = action.payload;
       });
   }
 });
 
-export const { selectFeeds, selectIsLoading } = feedsSlice.selectors;
+export const { selectFeeds } = feedsSlice.selectors;
 
 export default feedsSlice.reducer;
