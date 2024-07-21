@@ -7,7 +7,8 @@ import orderSliceReducer, {
   addIngredient,
   deleteIngredient,
   getOrderByNumber,
-  clearModalData
+  clearModalData,
+  moveIngredient
 } from './orderSlicer';
 
 describe('тесты для OrderSlicer', () => {
@@ -274,21 +275,7 @@ describe('тесты для OrderSlicer', () => {
 
     const newState = orderSliceReducer(
       initialOrderStateFull,
-      deleteIngredient({
-        _id: '643d69a5c3f7b9001cfa093c',
-        name: 'Краторная булка N-200i',
-        type: 'bun',
-        proteins: 80,
-        fat: 24,
-        carbohydrates: 53,
-        calories: 420,
-        price: 1255,
-        image: 'https://code.s3.yandex.net/react/code/bun-02.png',
-        image_mobile: 'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
-        image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
-        __v: 0,
-        id: '898989'
-      })
+      deleteIngredient('898989')
     );
 
     const { constructorItems } = newState;
@@ -324,19 +311,172 @@ describe('тесты для OrderSlicer', () => {
       },
       orderRequest: false,
       orderModalData: {
-        success: true,
         name: 'Заказ 1',
-        order: {
-          number: '666'
+        order: {},
+        number: 666,
+        createdAt: '01.07',
+        updatedAt: '02.07',
+        _id: '666_666',
+        status: 'done',
+        ingredients: [],
+        owner: {
+          createdAt: '01.07',
+          email: '666@yandex.ru',
+          name: 'name',
+          updatedAt: '02.07'
         }
       },
       orders: []
     };
 
-    const newState = orderSliceReducer(initialOrderState, clearModalData());
+    const newState = orderSliceReducer(initialOrderStateWithMOdalDate , clearModalData());
 
     const { orderModalData } = newState;
 
     expect(orderModalData).toEqual(null);
+  });
+
+  test('#3.8 reducer_передвинуть ингредиент в конструкторе', async () => {
+    const initialOrderStateFull = {
+      constructorItems: {
+        bun: {
+          _id: '643d69a5c3f7b9001cfa093c',
+          name: 'Краторная булка N-200i',
+          type: 'bun',
+          proteins: 80,
+          fat: 24,
+          carbohydrates: 53,
+          calories: 420,
+          price: 1255,
+          image: 'https://code.s3.yandex.net/react/code/bun-02.png',
+          image_mobile:
+            'https://code.s3.yandex.net/react/code/bun-02-mobile.png',
+          image_large: 'https://code.s3.yandex.net/react/code/bun-02-large.png',
+          __v: 0,
+          id: '00008989'
+        },
+        ingredients: [
+          {
+            _id: '643d69a5c3f7b9001cfa093f',
+            name: 'Мясо бессмертных моллюсков Protostomia',
+            type: 'main',
+            proteins: 433,
+            fat: 244,
+            carbohydrates: 33,
+            calories: 420,
+            price: 1337,
+            image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+            image_mobile:
+              'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+            image_large:
+              'https://code.s3.yandex.net/react/code/meat-02-large.png',
+            __v: 0,
+            id: '111111'
+          },
+          {
+            _id: '643d69a5c3f7b9001cfa093f',
+            name: 'Мясо бессмертных моллюсков Protostomia',
+            type: 'main',
+            proteins: 433,
+            fat: 244,
+            carbohydrates: 33,
+            calories: 420,
+            price: 1337,
+            image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+            image_mobile:
+              'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+            image_large:
+              'https://code.s3.yandex.net/react/code/meat-02-large.png',
+            __v: 0,
+            id: '222222'
+          },
+          {
+            _id: '643d69a5c3f7b9001cfa093f',
+            name: 'Мясо бессмертных моллюсков Protostomia',
+            type: 'main',
+            proteins: 433,
+            fat: 244,
+            carbohydrates: 33,
+            calories: 420,
+            price: 1337,
+            image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+            image_mobile:
+              'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+            image_large:
+              'https://code.s3.yandex.net/react/code/meat-02-large.png',
+            __v: 0,
+            id: '333333'
+          }
+        ]
+      },
+      orderRequest: false,
+      orderModalData: null,
+      orders: []
+    };
+
+    const newState = orderSliceReducer(
+      initialOrderStateFull,
+      moveIngredient({
+        currentIndex: 2,
+        newIndex: 1
+      })
+    );
+
+    const { constructorItems } = newState;
+
+    expect(constructorItems.ingredients).toEqual([
+      {
+        _id: '643d69a5c3f7b9001cfa093f',
+        name: 'Мясо бессмертных моллюсков Protostomia',
+        type: 'main',
+        proteins: 433,
+        fat: 244,
+        carbohydrates: 33,
+        calories: 420,
+        price: 1337,
+        image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+        image_mobile:
+          'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+        image_large:
+          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        __v: 0,
+        id: '111111'
+      },
+      {
+        _id: '643d69a5c3f7b9001cfa093f',
+        name: 'Мясо бессмертных моллюсков Protostomia',
+        type: 'main',
+        proteins: 433,
+        fat: 244,
+        carbohydrates: 33,
+        calories: 420,
+        price: 1337,
+        image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+        image_mobile:
+          'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+        image_large:
+          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        __v: 0,
+        id: '333333'
+      },
+      {
+        _id: '643d69a5c3f7b9001cfa093f',
+        name: 'Мясо бессмертных моллюсков Protostomia',
+        type: 'main',
+        proteins: 433,
+        fat: 244,
+        carbohydrates: 33,
+        calories: 420,
+        price: 1337,
+        image: 'https://code.s3.yandex.net/react/code/meat-02.png',
+        image_mobile:
+          'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
+        image_large:
+          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        __v: 0,
+        id: '222222'
+      }
+    ]);
+
   });
 });
