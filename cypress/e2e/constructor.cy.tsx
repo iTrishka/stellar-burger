@@ -23,9 +23,17 @@ beforeEach(() => {
   cy.visit('http://localhost:4000');
 });
 
+after(() => {
+  cy.clearCookie('accessToken')
+  cy.window().then((win) => {
+    win.localStorage.removeItem('refreshToken')
+  })
+})
+
 describe('проверяем работу модальных окон', () =>{
   it('открытие модального окна ингредиента', () => {  
     cy.modalIngredientOpen();
+
   });
 
   it('закрытие по клику на крестик', () => {
@@ -57,8 +65,8 @@ describe('проверяем создание заказа', () =>{
     cy.openOrderModal();
     cy.get(`[data-cy='modalCloseBtn']`).click();
     cy.get('#modals').should('not.be.visible');
-    cy.get(`[data-cy='bun-constructor-container-top']`).should('not.be.exist')
-    cy.get(`[data-cy='bun-constructor-container-bottom']`).should('not.be.exist')
-    cy.get(`[data-cy='main-constructor-container']`).contains('Выберите начинку')
+    cy.get(`[data-cy='bun-constructor-container-top']`).should('not.be.exist');
+    cy.get(`[data-cy='bun-constructor-container-bottom']`).should('not.be.exist');
+    cy.get(`[data-cy='main-constructor-container']`).contains('Выберите начинку');
   });
 });

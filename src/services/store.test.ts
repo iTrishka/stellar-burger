@@ -4,7 +4,7 @@ describe('rootReducer', () => {
   test('проверка правильной инициализации rootReducer', () => {
     const expectedReducers = {
       ingredients: {
-        ingredients: [],
+        ingredients: []
       },
       feeds: {
         feeds: {

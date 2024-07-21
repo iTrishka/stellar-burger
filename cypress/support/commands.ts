@@ -37,18 +37,11 @@
 // }
 
 
-// Cypress.Commands.add('login', (username, password) => {
-//   cy.visit('/login');
-//   cy.get('#username').type(username);
-//   cy.get('#password').type(password);
-//   cy.get('#login-button').click();
-// });
-
-
 Cypress.Commands.add('modalIngredientOpen', () => {
   const cardIngredient = cy.get(`[data-cy='ingredient1']`);
   cardIngredient.click();
-  cy.get('#modals').should('contain', 'Детали ингредиента'); 
+  cy.get('#modals').should('contain', 'Детали ингредиента');
+  cy.get('#modals').should('contain', 'Краторная булка N-200i'); 
 })
 
 Cypress.Commands.add('addBunInConstructor', () => {

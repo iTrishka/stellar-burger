@@ -329,7 +329,10 @@ describe('тесты для OrderSlicer', () => {
       orders: []
     };
 
-    const newState = orderSliceReducer(initialOrderStateWithMOdalDate , clearModalData());
+    const newState = orderSliceReducer(
+      initialOrderStateWithMOdalDate,
+      clearModalData()
+    );
 
     const { orderModalData } = newState;
 
@@ -437,8 +440,7 @@ describe('тесты для OrderSlicer', () => {
         image: 'https://code.s3.yandex.net/react/code/meat-02.png',
         image_mobile:
           'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
-        image_large:
-          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        image_large: 'https://code.s3.yandex.net/react/code/meat-02-large.png',
         __v: 0,
         id: '111111'
       },
@@ -454,8 +456,7 @@ describe('тесты для OrderSlicer', () => {
         image: 'https://code.s3.yandex.net/react/code/meat-02.png',
         image_mobile:
           'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
-        image_large:
-          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        image_large: 'https://code.s3.yandex.net/react/code/meat-02-large.png',
         __v: 0,
         id: '333333'
       },
@@ -471,12 +472,10 @@ describe('тесты для OrderSlicer', () => {
         image: 'https://code.s3.yandex.net/react/code/meat-02.png',
         image_mobile:
           'https://code.s3.yandex.net/react/code/meat-02-mobile.png',
-        image_large:
-          'https://code.s3.yandex.net/react/code/meat-02-large.png',
+        image_large: 'https://code.s3.yandex.net/react/code/meat-02-large.png',
         __v: 0,
         id: '222222'
       }
     ]);
-
   });
 });
