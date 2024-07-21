@@ -70,11 +70,19 @@ export const orderSlice = createSlice({
     deleteIngredient(state, action) {
       state.constructorItems.ingredients =
         state.constructorItems.ingredients.filter(
-          (item) => item.id !== action.payload.id
+          (item) => item.id !== action.payload
         );
     },
     clearModalData(state) {
       state.orderModalData = null;
+    },
+    moveIngredient(state, action) {
+      const { currentIndex, newIndex } = action.payload;
+      const itemToMove = state.constructorItems.ingredients.splice(
+        currentIndex,
+        1
+      )[0];
+      state.constructorItems.ingredients.splice(newIndex, 0, itemToMove);
     }
   },
   selectors: {},
@@ -119,7 +127,12 @@ export const orderSlice = createSlice({
 
 export const state = orderSlice.selectors;
 
-export const { addBun, addIngredient, deleteIngredient, clearModalData } =
-  orderSlice.actions;
+export const {
+  addBun,
+  addIngredient,
+  deleteIngredient,
+  clearModalData,
+  moveIngredient
+} = orderSlice.actions;
 
 export default orderSlice.reducer;
