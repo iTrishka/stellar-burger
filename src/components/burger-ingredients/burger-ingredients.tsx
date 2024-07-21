@@ -8,7 +8,7 @@ import { Preloader } from '../ui/preloader';
 
 export const BurgerIngredients: FC = () => {
   const ingredients = useSelector((state) => state.ingredients.ingredients);
-  const isLoading = useSelector((state) => state.ingredients.isLoading);
+  const isLoading = useSelector((state) => state.common.isLoading);
 
   /** TODO: взять переменные из стора */
   const buns: TIngredient[] = ingredients.filter((item) => item.type === 'bun');

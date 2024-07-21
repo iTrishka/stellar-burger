@@ -1,0 +1,9 @@
+{
+  "accessToken": "1111",
+  "refreshToken": "2222",
+  "success": true,
+  "user": {
+    "email": "snowflak@yandex.ru",
+    "name": "ЛисКраш245678"
+  }
+}

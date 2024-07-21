@@ -8,12 +8,26 @@ export const BurgerConstructorElement: FC<BurgerConstructorElementProps> = memo(
   ({ ingredient, index, totalItems }) => {
     const dispatch = useDispatch();
 
-    const handleMoveDown = () => {};
+    const handleMoveDown = () => {
+      dispatch(
+        orderSlice.actions.moveIngredient({
+          currentIndex: index,
+          newIndex: index + 1
+        })
+      );
+    };
 
-    const handleMoveUp = () => {};
+    const handleMoveUp = () => {
+      dispatch(
+        orderSlice.actions.moveIngredient({
+          currentIndex: index,
+          newIndex: index - 1
+        })
+      );
+    };
 
     const handleClose = () => {
-      dispatch(orderSlice.actions.deleteIngredient({ index }));
+      dispatch(orderSlice.actions.deleteIngredient(ingredient.id));
     };
 
     return (
